@@ -1,16 +1,41 @@
 "use strict";
 
-const hello = (req, res) => {
-    res.render("home/index");
+const output = {
+    home: (req, res) => {
+        res.render("home/index");
+    },
+    login: (req, res) => {
+        res.render("home/login");
+    },
 };
 
-const login = (req, res) => {
-    res.render('home/login')
+const users = {
+    id: ["a", "b", "C"],
+    pw: ["a", "b", "c"],
 }
 
-module.exports = {
-    hello,
-    login,
+const process = {
+    login: (req, res) => {
+        const id = req.body.id,
+            pw = req.body.pw;
+
+        if (users.id.includes(id)) {
+            const idx = users.id.indexOf(id);
+            if (users.pw[idx] === pw) {
+                return res.json({
+                    success: true,
+                });
+            }
+        }
+
+        return res.json({
+            success: false,
+            msg: "Failed",
+        });
+    },
 };
 
-//difdnaf
+module.exports = {
+    output,
+    process,
+};
